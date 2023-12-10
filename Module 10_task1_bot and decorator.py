@@ -1,3 +1,9 @@
+# Розділення введеного рядка на команду та аргументи
+def parse_input(user_input):
+    cmd, *args = user_input.split()
+    cmd = cmd.strip().lower()
+    return cmd, args
+
 # Декоратор для обробки помилок введення користувача
 def input_error(func):
     def inner(*args, **kwargs):
@@ -11,6 +17,21 @@ def input_error(func):
             return "Invalid command format. Use: command <name> <phone>"
 
     return inner
+
+# Завантаження контактів з текстового файлу
+@input_error
+def load_contacts(filename="contacts.txt"):
+    contacts = {}
+    try:
+        with open(filename, "r") as file:
+            for line in file:
+                name, phone = line.strip().split(":")
+                contacts[name] = phone
+    except FileNotFoundError:
+        pass
+    return contacts
+
+
 
 # Оновлення функції add_contact з декоратором input_error
 @input_error
