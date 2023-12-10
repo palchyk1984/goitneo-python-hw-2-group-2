@@ -15,6 +15,8 @@ def input_error(func):
             return f"Contact not found: {e}"
         except IndexError:
             return "Invalid command format. Use: command <name> <phone>"
+        except FileNotFoundError:
+            return "Contact DataBase not found"
 
     return inner
 
@@ -30,8 +32,6 @@ def load_contacts(filename="contacts.txt"):
     except FileNotFoundError:
         pass
     return contacts
-
-
 
 # Оновлення функції add_contact з декоратором input_error
 @input_error
